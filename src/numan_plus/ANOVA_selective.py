@@ -4,6 +4,7 @@ import numpy as np
 from statistics import mean, stdev, sqrt
 import scipy.stats as stats
 from sklearn.utils import shuffle
+from tqdm.notebook import tqdm
 
 # Vectorized implementation of two-way ANOVA
 def anova_two_way(A, B, Y):
