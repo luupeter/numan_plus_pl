@@ -85,7 +85,7 @@ def anova_two_way_permutations(A, B, Y, num_perm):
     FB = np.nan*np.zeros((active_cells.shape[0], nperm))
     FAB = np.nan*np.zeros((active_cells.shape[0], nperm))
 
-    for i in tqdm(range(nperm), desc='Permutations'):
+    for i in range(nperm):
         np.random.shuffle(Y)
         a,b,c, FA[:,i], FB[:,i], FAB[:,i] = anova_two_way(A,B,Y)
 

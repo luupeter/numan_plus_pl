@@ -3,8 +3,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from statistics import mean, stdev, sqrt
 import scipy.stats as stats
-from sklearn.utils import shuffle
-from tqdm.notebook import tqdm
 
 def get_tuning_matrix(Q, R, pref_num):
     # 1.Calculate average tuning curve of each unit
