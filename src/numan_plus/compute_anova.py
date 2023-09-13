@@ -1,5 +1,3 @@
-import matplotlib
-import matplotlib.pyplot as plt
 import numpy as np
 from statistics import mean, stdev, sqrt
 import scipy.stats as stats
@@ -97,17 +95,3 @@ def anova_two_way_permutations(A, B, Y, num_perm):
     pAB[active_cells] = np.sum(np.greater_equal(FAB,FAB0), axis=1)/nperm
 
     return pA, pB, pAB
-
-
-def average_tuning_curves(Q, H):
-    Qrange = np.unique(Q)
-    tuning_curves = np.array([H[Q==j,:].mean(axis=0) for j in Qrange])
-    
-    return tuning_curves
-
-def preferred_numerosity(Q, H):
-    tuning_curves = average_tuning_curves(Q, H)
-
-    pref_num = np.unique(Q)[np.argmax(tuning_curves, axis=0)]
-    
-    return pref_num

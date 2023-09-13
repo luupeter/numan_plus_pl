@@ -4,6 +4,19 @@ import numpy as np
 from statistics import mean, stdev, sqrt
 import scipy.stats as stats
 
+def average_tuning_curves(Q, H):
+    Qrange = np.unique(Q)
+    tuning_curves = np.array([H[Q==j,:].mean(axis=0) for j in Qrange])
+    
+    return tuning_curves
+
+def preferred_numerosity(Q, H):
+    tuning_curves = average_tuning_curves(Q, H)
+
+    pref_num = np.unique(Q)[np.argmax(tuning_curves, axis=0)]
+    
+    return pref_num
+
 def get_tuning_matrix(Q, R, pref_num):
     # 1.Calculate average tuning curve of each unit
     tuning_curves = average_tuning_curves(Q, R)
@@ -23,12 +36,14 @@ def get_tuning_matrix(Q, R, pref_num):
 
 def plot_tunings(tuning_mat, tuning_err, save_name=None):
     # Plot population tuning curves on linear scale
+    Qrange = np.array([0,1,2,3,4])
+    colors = ['red', 'orange', 'green', 'blue', 'purple']
     plt.figure(figsize=(9,4))
     plt.title(save_name)
     plt.subplot(1,2,1)
     for i, (tc, err) in enumerate(zip(tuning_mat, tuning_err)):
         plt.errorbar(Qrange, tc, err, color=colors[i])
-        plt.xticks(ticks=np.array([0,1,2,3,4]), labels=np.array([1,2,3,4,5]))
+        plt.xticks(ticks=Qrange, labels=np.array([1,2,3,4,5]))
     plt.xlabel('Numerosity')
     plt.ylabel('Normalized Neural Activity')
     # Plot population tuning curves on log scale
@@ -36,18 +51,19 @@ def plot_tunings(tuning_mat, tuning_err, save_name=None):
     for i, (tc, err) in enumerate(zip(tuning_mat, tuning_err)):
         plt.errorbar(np.array([1,2,3,4,5]), tc, err, color=colors[i]) # offset x axis by one to avoid taking the log of zero
     plt.xscale('log', base=2)
-    plt.gca().xaxis.set_major_formatter(ScalarFormatter())
+    #plt.gca().xaxis.set_major_formatter(ScalarFormatter())
     plt.xticks(ticks=Qrange+1, labels=Qrange+1)
     plt.xlabel('Numerosity')
     plt.ylabel('Normalized Neural Activity')
-    plt.show()
     # save figure
     if not (save_name is None):
-        plt.savefig('./processed/spots/anova/imaris/'+ save_name + '.png')
+        plt.savefig('./processed/spots/anova/'+ save_name + '.png')
+    plt.show()
 
-def plot_selective_cells_histo(Q, R, save_name=None):
-    pref_num = preferred_numerosity(Q, R)
-    hist = [np.sum(pref_num==q) for q in np.array([0,1,2,3,4])]
+def plot_selective_cells_histo(Q, R, pref_num, chance_lev=None, save_name=None):
+    Qrange = np.array([0,1,2,3,4])
+    colors = ['red', 'orange', 'green', 'blue', 'purple']
+    hist = [np.sum(pref_num==q) for q in Qrange]
     perc  = hist/np.sum(hist)
 
     # plot number neurons percentages and absolute distance tuning
@@ -55,15 +71,16 @@ def plot_selective_cells_histo(Q, R, save_name=None):
     plt.bar(Qrange, hist, width=0.8, color=colors)
     for x, y, p in zip(Qrange, hist, perc):
         plt.text(x, y, str(y)+'\n'+str(round(p*100,1))+'%')
-    plt.axhline(y=chance_lev, color='k', linestyle='--')
+    if not (chance_lev is None):
+        plt.axhline(y=chance_lev, color='k', linestyle='--')
     plt.xticks(np.array([0,1,2,3,4]),[1,2,3,4,5])
     plt.xlabel('Preferred Numerosity')
     plt.ylabel('Number of cells')
     plt.title(save_name)
-    plt.show()
     # save figure
     if not (save_name is None):
-        plt.savefig('./processed/spots/anova/imaris/'+ save_name + '.png')
+        plt.savefig('./processed/spots/anova/'+ save_name + '.png')
+    plt.show()
 
 def abs_dist_tunings(tuning_mat, absolute_dist=0, save_name=None):
     if absolute_dist == 1:
@@ -73,8 +90,8 @@ def abs_dist_tunings(tuning_mat, absolute_dist=0, save_name=None):
     dist_tuning_dict = {}
     for i in distRange:
         dist_tuning_dict[str(i)]=[]
-    for pref_n in Qrange:
-        for n in Qrange:
+    for pref_n in np.array([0,1,2,3,4]):
+        for n in np.array([0,1,2,3,4]):
             if absolute_dist == 1:
                 dist_tuning_dict[str(abs(n - pref_n))].append(tuning_mat[pref_n][n])
             else:
@@ -95,10 +112,10 @@ def abs_dist_tunings(tuning_mat, absolute_dist=0, save_name=None):
     plt.xlabel('Absolute numerical distance')
     plt.ylabel('Normalized Neural Activity')
     plt.title(save_name)
-    plt.show
     # save figure
     if not (save_name is None):
-        plt.savefig('./processed/spots/anova/imaris/'+ save_name + '.png')
+        plt.savefig('./processed/spots/anova/'+ save_name + '.png')
+    plt.show()
     
     #statistics t-test comparisons
     for i in distRange:
