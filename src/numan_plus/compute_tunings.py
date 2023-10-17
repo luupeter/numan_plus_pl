@@ -34,7 +34,7 @@ def get_tuning_matrix(Q, R, pref_num):
 
     return tuning_mat, tuning_err
 
-def plot_tunings(tuning_mat, tuning_err, save_name=None):
+def plot_tunings(tuning_mat, tuning_err, save_path=None, save_name=None):
     # Plot population tuning curves on linear scale
     Qrange = np.array([0,1,2,3,4])
     colors = ['red', 'orange', 'green', 'blue', 'purple']
@@ -57,10 +57,13 @@ def plot_tunings(tuning_mat, tuning_err, save_name=None):
     plt.ylabel('Normalized Neural Activity')
     # save figure
     if not (save_name is None):
-        plt.savefig('./processed/spots/anova/'+ save_name + '.png')
+        if not (save_path is None):
+            plt.savefig(save_path + '/'+ save_name + '.png')
+        else:
+            plt.savefig(save_name + '.png')
     plt.show()
 
-def plot_selective_cells_histo(Q, R, pref_num, chance_lev=None, save_name=None):
+def plot_selective_cells_histo(Q, R, pref_num, chance_lev=None, save_path = None, save_name=None):
     Qrange = np.array([0,1,2,3,4])
     colors = ['red', 'orange', 'green', 'blue', 'purple']
     hist = [np.sum(pref_num==q) for q in Qrange]
@@ -79,10 +82,13 @@ def plot_selective_cells_histo(Q, R, pref_num, chance_lev=None, save_name=None):
     plt.title(save_name)
     # save figure
     if not (save_name is None):
-        plt.savefig('./processed/spots/anova/'+ save_name + '.png')
+        if not (save_path is None):
+            plt.savefig(save_path + '/'+ save_name + '.png')
+        else:
+            plt.savefig(save_name + '.png')
     plt.show()
 
-def abs_dist_tunings(tuning_mat, absolute_dist=0, save_name=None):
+def abs_dist_tunings(tuning_mat, absolute_dist=0, save_path = None, save_name=None):
     if absolute_dist == 1:
         distRange = [0, 1, 2, 3, 4]
     else:
@@ -114,7 +120,10 @@ def abs_dist_tunings(tuning_mat, absolute_dist=0, save_name=None):
     plt.title(save_name)
     # save figure
     if not (save_name is None):
-        plt.savefig('./processed/spots/anova/'+ save_name + '.png')
+        if not (save_path is None):
+            plt.savefig(save_path + '/'+ save_name + '.png')
+        else:
+            plt.savefig(save_name + '.png')
     plt.show()
     
     #statistics t-test comparisons
