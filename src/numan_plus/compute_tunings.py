@@ -113,6 +113,7 @@ def abs_dist_tunings(tuning_mat, absolute_dist=0, save_path = None, save_name=No
 
     #plot
     plt.figure(figsize=(4,4))
+    print(dist_avg_tuning)
     if sum(dist_avg_tuning) != 0:
         plt.errorbar(distRange, dist_avg_tuning, dist_err_tuning, color='black')
     plt.xticks(distRange)
