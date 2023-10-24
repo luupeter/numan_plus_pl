@@ -334,8 +334,8 @@ class Reports:
         plt.close()
         
     def make_direct_signal_reports(self,
-                            spot_tag, group_tag,
-                            annotation_type,
+                            spot_tag, group_tag, 
+                            annotation_type, region,
                             labels=None,
                             plot_type="cycle",
                             plot_type_tag='',
@@ -406,11 +406,11 @@ class Reports:
             if checkbox:
                 # filename to save pdf with all the significant traces and checkboxes
                 pdf_filename = f"{self.project}/spots/reports/groupped/signals/" \
-                               f"CHOOSE_{plot_type}{plot_type_tag}_from_{spot_tag}_group_{group_tag}.pdf"
+                               f"CHOOSE_{plot_type}{plot_type_tag}_from_{spot_tag}_group_{group_tag}_{region}.pdf"
             else:
                 # filename to save pdf with all the significant traces
                 pdf_filename = f"{self.project}/spots/reports/all_significant/signals/" \
-                               f"{plot_type}{plot_type_tag}_from_{spot_tag}_group_{group_tag}.pdf"
+                               f"{plot_type}{plot_type_tag}_from_{spot_tag}_group_{group_tag}_{region}.pdf"
 
         spots = analysis.Spots.from_json(f"{self.project}/spots/signals/spots_{spot_tag}.json")
 
