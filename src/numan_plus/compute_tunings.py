@@ -58,9 +58,9 @@ def plot_tunings(tuning_mat, tuning_err, save_path=None, save_name=None):
     # save figure
     if not (save_name is None):
         if not (save_path is None):
-            plt.savefig(save_path + '/'+ save_name + '.svg')
+            plt.savefig(save_path + '/'+ save_name + '.svg', format='svg')
         else:
-            plt.savefig(save_name + '.svg')
+            plt.savefig(save_name + '.svg', format='svg')
     plt.show()
 
 def plot_selective_cells_histo(Q, R, pref_num, chance_lev=None, save_path = None, save_name=None):
@@ -83,9 +83,9 @@ def plot_selective_cells_histo(Q, R, pref_num, chance_lev=None, save_path = None
     # save figure
     if not (save_name is None):
         if not (save_path is None):
-            plt.savefig(save_path + '/'+ save_name + '.svg')
+            plt.savefig(save_path + '/'+ save_name + '.svg', format='svg')
         else:
-            plt.savefig(save_name + '.svg')
+            plt.savefig(save_name + '.svg', format='svg')
     plt.show()
 
 def abs_dist_tunings(tuning_mat, absolute_dist=0, save_path = None, save_name=None):
@@ -122,9 +122,9 @@ def abs_dist_tunings(tuning_mat, absolute_dist=0, save_path = None, save_name=No
     # save figure
     if not (save_name is None):
         if not (save_path is None):
-            plt.savefig(save_path + '/'+ save_name + '.svg')
+            plt.savefig(save_path + '/'+ save_name + '.svg', format='svg')
         else:
-            plt.savefig(save_name + '.svg')
+            plt.savefig(save_name + '.svg', format='svg')
     plt.show()
     
     #statistics t-test comparisons
