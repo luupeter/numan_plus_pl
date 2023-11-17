@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from statistics import mean, stdev, sqrt
 import scipy.stats as stats
+import pandas as pd
 
 def average_tuning_curves(Q, H):
     Qrange = np.unique(Q)
@@ -37,7 +38,7 @@ def get_tuning_matrix(Q, R, pref_num):
 def plot_tunings(tuning_mat, tuning_err, save_path=None, save_name=None):
     # Plot population tuning curves on linear scale
     Qrange = np.array([0,1,2,3,4])
-    colors = ['red', 'orange', 'green', 'blue', 'purple']
+    colors = ['red', 'cyan', 'green', 'gold', 'magenta']
     plt.figure(figsize=(9,4))
     plt.title(save_name)
     plt.subplot(1,2,1)
@@ -59,13 +60,14 @@ def plot_tunings(tuning_mat, tuning_err, save_path=None, save_name=None):
     if not (save_name is None):
         if not (save_path is None):
             plt.savefig(save_path + '/'+ save_name + '.svg', format='svg')
+            plt.savefig(save_path + '/'+ save_name + '.png', dpi=900)
         else:
             plt.savefig(save_name + '.svg', format='svg')
     plt.show()
 
 def plot_selective_cells_histo(Q, R, pref_num, chance_lev=None, save_path = None, save_name=None):
     Qrange = np.array([0,1,2,3,4])
-    colors = ['red', 'orange', 'green', 'blue', 'purple']
+    colors = ['red', 'cyan', 'green', 'gold', 'magenta']
     hist = [np.sum(pref_num==q) for q in Qrange]
     perc  = hist/np.sum(hist)
 
@@ -84,8 +86,10 @@ def plot_selective_cells_histo(Q, R, pref_num, chance_lev=None, save_path = None
     if not (save_name is None):
         if not (save_path is None):
             plt.savefig(save_path + '/'+ save_name + '.svg', format='svg')
+            plt.savefig(save_path + '/'+ save_name + '.png', dpi=900)
         else:
             plt.savefig(save_name + '.svg', format='svg')
+            plt.savefig(save_name + '.png', dpi=900)
     plt.show()
 
 def abs_dist_tunings(tuning_mat, absolute_dist=0, save_path = None, save_name=None):
